@@ -25,7 +25,26 @@ Note:
   The `install.sh` script will perform the following,
   - `nmon` & `operf` in all the nodes (master + slaves)
   - include the scripts part of this repo to the PATH
+  
+  ```
+  CAUTION: oprofile should be rebuild and installed every time when the system is moved to a different JDK level. 
+  The old oprofile must be uninstalled before installing the new version. 
+  
+  To uninstall the old oprofile installed do
+  
+  In Ubuntu: 
+    cd ${WORKDIR}/oprofile/oprofile-1.1.0
+    make uninstall
+    make clean
+    ./configure -prefix=${WORKDIR}/oprofile/oprofile_install --with-java=${JAVA_HOME}
+    make install
 
+  In RHEL:
+    sudo yum remove oprofile
+    sudo yum remove oprofile-jit
+  
+  ```
+  
 ## nmon recording.
 
   - Two scripts are provided for nmon recording and they can be invoked as follows,
@@ -43,6 +62,18 @@ Note:
   ```
 
 ## oprofile 
+
+  Before starting Spark Application profiling add the following configuration parameter to either `spark-submit` or `spark-sql` or `spark-shell`,
+  
+  Set `OPERFLIB` to ${WORKDIR}/oprofile/oprofile_install/lib
+  
+  ```
+  --conf spark.executor.extraJavaOptions="-agentpath:${OPERFLIB}/oprofile/libjvmti_oprofile.so" 
+  --conf spark.executor.extraLibraryPath=${OPERFLIB}                                
+  --driver-library-path ${OPERFLIB}                                                
+  --driver-java-options "-agentpath:${OPERFLIB}/oprofile/libjvmti_oprofile.so"
+
+  ```
 
   - To enable oprofile for profiling spark applications:
   ```
