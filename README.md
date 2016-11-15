@@ -1,7 +1,5 @@
 # perftools-setup
 
-## nmon recording.
-
 ### Pre-requisities:
 1. HADOOP YARN Setup should be completed and HADOOP_HOME should be set in the environment variable.
 2. Make sure the nodes are set for password-less SSH both ways(master->slaves & slaves->master).
@@ -11,29 +9,26 @@
 
 ### Installations:
 
-* Monitoring utility `nmon` is required to collect performance data. To install nmon follows the steps,
-
-  ```bash
-  # Ubuntu
-  sudo apt-get install nmon
-  
-  #RHEL
-  yum install epel-release
-  yum install nmon
-  ```
-  
-### Steps:
-
-1. After cloning this repository, add this repository to the PATH so that the scripts provided by the repository can be invoked in other scripts easily.
+* Monitoring utility `nmon` & `operf` are required to collect performance data. To install follows the steps,
 
   ```bash
   git clone https://github.com/josiahsams/perftools-setup
-  curpwd=`pwd`
-  echo "export PATH=$PATH:${curpwd}/perftools-setup/nmon" >> ~/.bashrc
+  
+  cd perftools-setup
+  
+  ./install.sh
+  
   . ~/.bashrc
   ```
   
-2. Two scripts are provided for nmon recording and they can be invoked as follows,
+Note:
+  The `install.sh` script will perform the following,
+  - `nmon` & `operf` in all the nodes (master + slaves)
+  - include the scripts part of this repo to the PATH
+
+## nmon recording.
+
+  - Two scripts are provided for nmon recording and they can be invoked as follows,
 
   ```bash
   # To Start nmon recording in all the nodes of the cluster.
@@ -45,5 +40,16 @@
   # and place it in the directory provided by user and keep it in an archive format.
   
   stopnmon.sh <dir_name>
+  ```
+
+## oprofile 
+
+  - To enable oprofile for profiling spark applications:
+  ```
+  oprofile_start.sh
+  ```
   
-  
+  - To disable oprofile for spark applications
+  ```
+  oprofile_stop.sh
+  ```
