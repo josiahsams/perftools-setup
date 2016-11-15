@@ -3,7 +3,7 @@
 ${WORKDIR?"Need to set WORKDIR env"} 2>/dev/null
 type AN >/dev/null 2>&1 || { echo >&2 "Require AN script to be in path. Aborting."; exit 1; }
 
-if [ -d $WORKDIR/perftools-setup ]l then
+if [ -d $WORKDIR/perftools-setup ]; then
 	echo "make sure to clone the github repo `perftools-setup` and proceed further."
 	exit 255
 fi
@@ -23,7 +23,7 @@ fi
 DN "mkdir -p $WORKDIR/perftools-setup/oprofile/"
 CP $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh
 CP $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh
-AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh"
+
 AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh"
 
 if [ -f /usr/bin/apt-get ]; then
@@ -37,6 +37,7 @@ if [ -f /usr/bin/apt-get ]; then
 	AN "echo "oprofile:passw0rd" | sudo chpasswd"
 
 	# install `oprofile` in all nodes
+	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh"
 	AN "$WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR"
 
 else
