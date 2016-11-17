@@ -22,10 +22,10 @@ echo "Installing papi-devel"
 sudo yum -y install papi-devel >> ${LOGFILE}  2>&1
 
 echo "Installing libpfm-devel"
-sudo yum -y install libpfm-devel.ppc64le
+sudo yum -y install libpfm-devel
 
 echo "Installing popt-devel"
-sudo yum -y install popt-devel.ppc64le
+sudo yum -y install popt-devel
 
 echo "Installing binutils"
 sudo yum -y install binutils-devel >> ${LOGFILE}  2>&1
