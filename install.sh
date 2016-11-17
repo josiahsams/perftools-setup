@@ -21,7 +21,7 @@ fi
 
 # Copy the required script to all slave nodes.
 DN "mkdir -p $WORKDIR/perftools-setup/oprofile/"
-CP $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh
+
 CP $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh
 
 AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh"
@@ -37,6 +37,7 @@ if [ -f /usr/bin/apt-get ]; then
 	AN "echo "oprofile:passw0rd" | sudo chpasswd"
 
 	# install `oprofile` in all nodes
+	CP $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh
 	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh"
 	AN "$WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR"
 
@@ -52,7 +53,9 @@ else
 	echo "passw0rd" | sudo passwd  --stdin oprofile
 
 	# install `oprofile` in all nodes
-
+	CP $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh
+	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh"
+	AN "$WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR"
 
 	
 fi
