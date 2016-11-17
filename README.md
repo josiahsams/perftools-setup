@@ -27,22 +27,16 @@ Note:
   - include the scripts part of this repo to the PATH
   
   ```
-  CAUTION: oprofile should be rebuild and installed every time when the system is moved to a different JDK level. 
-  The old oprofile must be uninstalled before installing the new version. 
+  # CAUTION: oprofile should be rebuild and installed every time when the system is moved to a different JDK level. 
+  # The old oprofile must be uninstalled before installing the new version. 
   
-  To uninstall the old oprofile installed do
-  
-  In Ubuntu: 
+  # To uninstall the old oprofile installed do
+
     cd ${WORKDIR}/oprofile/oprofile-1.1.0
     make uninstall
     make clean
     ./configure -prefix=${WORKDIR}/oprofile/oprofile_install --with-java=${JAVA_HOME}
     make install
-
-  In RHEL:
-    sudo yum remove oprofile
-    sudo yum remove oprofile-jit
-  
   ```
   
 ## nmon recording.
