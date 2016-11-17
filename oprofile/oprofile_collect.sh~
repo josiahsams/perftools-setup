@@ -1,9 +1,18 @@
 #!/bin/sh
 
+set -x
+
 if [ $# -ne 1 ]; then
         echo "Usage: $0 <dirname>"
         exit 25
 fi
+
+#user=`whoami`
+
+#if [ $user != "root" ]; then
+#	echo "This script should be invoked with sudo privileges"
+#	exit 24
+#fi
 
 OPPATH=$1/oprofile_install/bin
 

@@ -18,32 +18,20 @@ LOGFILE=$CUR_OPROF_DIR/oprof_logs/install_log.$$
 
 echo "Logs will be placed under $LOGFILE "
 
-sudo apt-get -y update >> ${LOGFILE}  2>&1
+echo "Installing papi-devel"
+sudo yum -y install papi-devel >> ${LOGFILE}  2>&1
 
-echo "Installing libpapi-dev"
-sudo apt-get -y install libpapi-dev >> ${LOGFILE}  2>&1
+echo "Installing libpfm-devel"
+sudo yum -y install libpfm-devel.ppc64le
 
-echo "Installing libpfm4-dev"
-sudo apt-get -y install libpfm4-dev >> ${LOGFILE}  2>&1
+echo "Installing popt-devel"
+sudo yum -y install popt-devel.ppc64le
 
-echo "Installing libopt-dev"
-sudo apt-get -y install libpopt-dev:ppc64el >> ${LOGFILE}  2>&1
+echo "Installing binutils"
+sudo yum -y install binutils-devel >> ${LOGFILE}  2>&1
 
-echo "Installing binutils-dev"
-sudo apt-get -y install binutils-dev >> ${LOGFILE}  2>&1
-
-echo "Installing g++"
-sudo apt-get -y install g++ >> ${LOGFILE}  2>&1
-
-echo "Installing gcc"
-sudo apt-get -y install gcc >> ${LOGFILE}  2>&1
-
-echo "Installing libiberty-dev"
-sudo apt-get -y install libiberty-dev >> ${LOGFILE}  2>&1
-
-echo "Installing make"
-sudo apt-get -y install make >> ${LOGFILE}  2>&1
-
+echo "Installing gcc-c++"
+sudo yum -y install gcc-c++ >> ${LOGFILE}  2>&1
 
 if [[ ! -d $WORKDIR/oprofile/oprofile-1.1.0 ]]; then
 

@@ -26,24 +26,25 @@ sudo apt-get -y install libpapi-dev >> ${LOGFILE}  2>&1
 echo "Installing libpfm4-dev"
 sudo apt-get -y install libpfm4-dev >> ${LOGFILE}  2>&1
 
-echo "Installing libopt-dev"
+echo "Installing libpapi-dev"
 sudo apt-get -y install libpopt-dev:ppc64el >> ${LOGFILE}  2>&1
 
-echo "Installing binutils-dev"
+echo "Installing libpapi-dev"
 sudo apt-get -y install binutils-dev >> ${LOGFILE}  2>&1
 
-echo "Installing g++"
+echo "Installing libpapi-dev"
 sudo apt-get -y install g++ >> ${LOGFILE}  2>&1
 
-echo "Installing gcc"
+echo "Installing libpapi-dev"
 sudo apt-get -y install gcc >> ${LOGFILE}  2>&1
 
-echo "Installing libiberty-dev"
+echo "Installing libpapi-dev"
 sudo apt-get -y install libiberty-dev >> ${LOGFILE}  2>&1
 
-echo "Installing make"
+echo "Installing libpapi-dev"
 sudo apt-get -y install make >> ${LOGFILE}  2>&1
 
+echo "Switch to oprofile directory"
 
 if [[ ! -d $WORKDIR/oprofile/oprofile-1.1.0 ]]; then
 
