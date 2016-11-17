@@ -14,7 +14,7 @@ mkdir -p $WORKDIR/oprofile/all_reps/report.$$
 
 mv ./report/* ./all_reps/report.$$/
 
-for slaves in `cat $HADOOP_HOME/etc/hadoop/slaves`
+for slaves in `cat $HADOOP_HOME/etc/hadoop/slaves | grep -v "^#" `
 do
 	scp ${slaves}:$HOME/oprofile/report/* $WORKDIR/oprofile/all_reps/report.$$/
 done
