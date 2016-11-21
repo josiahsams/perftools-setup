@@ -23,7 +23,8 @@
   
 Note:
   The `install.sh` script will perform the following,
-  - `nmon` & `operf` in all the nodes (master + slaves)
+  - `nmon` & `operf`in all the nodes (master + slaves)
+  - Configure to run `pid_monitor` in master node.
   - include the scripts part of this repo to the PATH
   
   ```
@@ -78,3 +79,19 @@ Note:
   ```
   oprofile_stop.sh
   ```
+
+## pid_monitor
+
+ To invoke pid_monitor in your cluster, run the following command,
+ 
+ ```
+ pmonitor <command/script with arguments>
+ 
+ eg:- pmonitor run_single.sh q73 6 18 23g tpcds1t
+ ```
+ 
+ Note: 
+  - This command `pmonitor` will start necessary data collection agent in all nodes(master+slaves)
+  - On completion it will collect all the performance data from the node and make it available in master.
+  - All the perf data can be viewed in web under http://masternode/rundir
+  
