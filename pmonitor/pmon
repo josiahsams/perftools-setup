@@ -1,0 +1,68 @@
+#!/bin/bash
+
+if [ $# -le 1 ]; then
+    echo "Usage: $0 <workload with args>"
+    exit
+fi
+
+${WORKDIR?"Need to set WORKDIR env"} 2>/dev/null
+${SPARK_HOME?"Need to set SPARK_HOME env"} 2>/dev/null
+${HADOOP_HOME?"Need to set HADOOP_HOME env"} 2>/dev/null
+
+export WORKLOAD_CMD="$@"  # The workload to run
+
+workname=""
+while [ "$1" != "" ]; do
+   if [ "$workname" != "" ]; then
+     workname="${workname}_${1}"
+   else
+      workname="${1}"
+   fi
+  shift;
+done;
+
+export PID_DIR=${WORKDIR}/pid_monitor
+
+export WORKLOAD_NAME=${workname}
+export DESCRIPTION=${workname}
+export WORKLOAD_DIR="${WORKDIR}"             # The workload working directory
+export MEAS_DELAY_SEC=1             # Delay between each measurement
+
+cd ${PID_DIR}
+
+export RUNDIR=$(${PID_DIR}/setup-run.sh $WORKLOAD_NAME)
+
+slavelist=""
+for userhost in `cat ${HADOOP_HOME}/etc/hadoop/slaves |grep -v "^#" `; do
+    fields=`echo $userhost | awk -F '@' '{print NF }'`
+    if [ $fields -eq 2 ]; then
+        in_host=`echo $userhost | awk -F '@' '{print $2}'`
+    else
+        in_host=`echo $userhost `
+    fi
+
+    # check & skip localhost from the slave list
+    add=true
+    for hostalias in `hostname -A`; do
+        if [ $hostalias == $in_host ]; then
+           add=false
+           break
+        fi
+    done
+
+    if [ $add == true ]; then
+       slavelist="$node $slavelist"
+    fi
+done
+
+# export SLAVES="localhost $(hostname)"
+export SLAVES="localhost $slavelist"
+
+echo "RUNDIR : $RUNDIR :: SLAVES : $SLAVES"
+
+
+./run-workload.sh
+
+# Optionally create html table based on spark stderr
+./create_spark_table.py $RUNDIR/html/config.json > $RUNDIR/html/workload.html
+

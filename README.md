@@ -85,13 +85,13 @@ Note:
  To invoke pid_monitor in your cluster, run the following command,
  
  ```
- pmonitor <command/script with arguments>
+ pmon <command/script with arguments>
  
- eg:- pmonitor run_single.sh q73 6 18 23g tpcds1t
+ eg:- pmon run_single.sh q73 6 18 23g tpcds1t
  ```
  
  Note: 
-  - This command `pmonitor` will start necessary data collection agent in all nodes(master+slaves)
+  - This command `pmon` will start necessary data collection agent in all nodes(master+slaves)
   - On completion it will collect all the performance data from the node and make it available in master.
   - All the perf data can be viewed in web under http://masternode/rundir
   

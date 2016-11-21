@@ -19,6 +19,11 @@ if [ $? -ne 0 ]; then
 	echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/oprofile" >> ~/.bashrc
 fi
 
+grep "perftools-setup\/pmonitor" ~/.bashrc
+if [ $? -ne 0 ]; then
+        echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/pmonitor" >> ~/.bashrc
+fi
+
 # Copy the required script to all slave nodes.
 DN "mkdir -p $WORKDIR/perftools-setup/oprofile/"
 
