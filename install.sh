@@ -41,6 +41,9 @@ if [ -f /usr/bin/apt-get ]; then
 	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh"
 	AN "$WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR"
 
+	# required for pid_monitor.
+	sudo apt-get -y install dstat time
+	sudo apt-get -y install apache2
 else
 	# RHEL
 
@@ -57,9 +60,27 @@ else
 	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh"
 	AN "$WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR"
 
-	
+	# required for pid_monitor.
+	sudo yum -y install dstat time
+	sudo yum -y install httpd
+fi
+# Steps to install pid_monitor.
+if [ ! -d ${WORKDIR}/pid_monitor ]; then
+	git clone https://github.com/jschaub30/pid_monitor
+
+	mkdir -p ${WORKDIR}/pid_monitor/rundir
+
+	#Set execute permission for others so that apache can read files from this directory.
+	sudo chmod o+x ${WORKDIR} ${WORKDIR}/pid_monitor ${WORKDIR}/pid_monitor/rundir
 fi
 
+if [ ! -L /var/www/html/rundir ]; then
+	cd /var/www/html
+
+	sudo ln -sf ${WORKDIR}/pid_monitor/rundir
+fi
+
+echo "pid_monitor is successfully configured. "
 echo "Installation Completed !!"
 
 
