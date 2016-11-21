@@ -51,18 +51,17 @@ for userhost in `cat ${HADOOP_HOME}/etc/hadoop/slaves |grep -v "^#" `; do
     done
 
     if [ $add == true ]; then
-       slavelist="$node $slavelist"
+       slavelist="$in_host $slavelist"
     fi
 done
 
 # export SLAVES="localhost $(hostname)"
 export SLAVES="localhost $slavelist"
 
-echo "RUNDIR : $RUNDIR :: SLAVES : $SLAVES"
-
+echo "SLAVES : $SLAVES"
 
 ./run-workload.sh
 
 # Optionally create html table based on spark stderr
-./create_spark_table.py $RUNDIR/html/config.json > $RUNDIR/html/workload.html
+# ./create_spark_table.py $RUNDIR/html/config.json > $RUNDIR/html/workload.html
 
