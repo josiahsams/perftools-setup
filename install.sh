@@ -3,7 +3,7 @@
 ${WORKDIR?"Need to set WORKDIR env"} 2>/dev/null
 type AN >/dev/null 2>&1 || { echo >&2 "Require AN script to be in path. Aborting."; exit 1; }
 
-if [ -d $WORKDIR/perftools-setup ]; then
+if [ ! -d $WORKDIR/perftools-setup ]; then
 	echo "make sure to clone the github repo `perftools-setup` and proceed further."
 	exit 255
 fi
