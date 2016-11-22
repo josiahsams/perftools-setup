@@ -69,6 +69,12 @@ else
 	sudo yum -y install dstat time
 	sudo yum -y install httpd
 fi
+
+grep "oprofile_install\/bin" ~/.bashrc
+if [ $? -ne 0 ]; then
+        echo "export PATH=\$PATH:${WORKDIR}/oprofile/oprofile_install/bin" >> ~/.bashrc
+fi
+
 # Steps to install pid_monitor.
 if [ ! -d ${WORKDIR}/pid_monitor ]; then
 	git clone https://github.com/jschaub30/pid_monitor
