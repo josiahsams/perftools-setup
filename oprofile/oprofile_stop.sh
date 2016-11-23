@@ -4,7 +4,7 @@ ${WORKDIR?"Need to set WORKDIR env"} 2>/dev/null
 ${HADOOP_HOME?"Need to set HADOOP_HOME env"} 2>/dev/null
 
 echo "Stopping oprofile on all nodes of the cluster"
-AN "ps -ef | grep -w  operf | grep -v grep | awk '{print \$2}' | xargs -i sudo kill -9 {}"
+AN "ps -ef | grep -w  operf | grep -v grep | awk '{print \$2}' | xargs -i sudo kill -SIGINT {}"
 
 sleep 30
 
