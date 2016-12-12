@@ -47,7 +47,7 @@ if [ -f /usr/bin/apt-get ]; then
 	AN "$WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR"
 
 	# required for pid_monitor.
-	sudo apt-get -y install dstat time
+	AN "sudo apt-get -y install dstat time  >/dev/null 2>&1"
 	sudo apt-get -y install apache2
 else
 	# RHEL
@@ -66,7 +66,7 @@ else
 	AN "$WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR"
 
 	# required for pid_monitor.
-	sudo yum -y install dstat time
+	AN "sudo yum -y install dstat time  >/dev/null 2>&1"
 	sudo yum -y install httpd
 fi
 
