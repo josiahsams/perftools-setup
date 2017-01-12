@@ -15,18 +15,18 @@ mkdir -p ${N_DIR}
 CUR_NMON_DIR=`readlink -f ${N_DIR}`
 
 echo -n "Starting nmon on "
-cat ${HADOOP_HOME}/etc/hadoop/slaves | xargs -i echo -n "{}, "
+cat ${HADOOP_HOME}/etc/hadoop/slaves | grep -v "^#" | xargs -i echo -n "{}, "
 echo ""
 
 # Stop nmon - Remote
-cat ${HADOOP_HOME}/etc/hadoop/slaves | xargs -i ssh {} "ps -ef | grep nmon | grep -v grep | grep -v $0  | awk '{print \$2}' | xargs -i kill -9 \{\}"
+cat ${HADOOP_HOME}/etc/hadoop/slaves | grep -v "^#" | xargs -i ssh {} "ps -ef | grep nmon | grep -v grep | grep -v $0  | awk '{print \$2}' | xargs -i kill -9 \{\}"
 sleep 5
 
 NMON_REMOTE_REC_DIR=nmonData
-cat ${HADOOP_HOME}/etc/hadoop/slaves | xargs -i ssh {} "mkdir -p ${NMON_REMOTE_REC_DIR}"
+cat ${HADOOP_HOME}/etc/hadoop/slaves | grep -v "^#" | xargs -i ssh {} "mkdir -p ${NMON_REMOTE_REC_DIR}"
 
 # Start nmon - Remote
-cat ${HADOOP_HOME}/etc/hadoop/slaves | xargs -i ssh {} "nmon -f -m ${NMON_REMOTE_REC_DIR} -s 5 -c 10000"
+cat ${HADOOP_HOME}/etc/hadoop/slaves | grep -v "^#" | xargs -i ssh {} "nmon -f -m ${NMON_REMOTE_REC_DIR} -s 5 -c 10000"
 sleep 5
 
 # Kill local nmon instances
