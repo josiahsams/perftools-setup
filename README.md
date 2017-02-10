@@ -30,14 +30,13 @@ Note:
   ```
   # CAUTION: oprofile should be rebuild and installed every time when the system is moved to a different JDK level. 
   # The old oprofile must be uninstalled before installing the new version. 
-  
-  # To uninstall the old oprofile installed do
 
-    cd ${WORKDIR}/oprofile/oprofile-1.1.0
-    make uninstall
-    make clean
-    ./configure -prefix=${WORKDIR}/oprofile/oprofile_install --with-java=${JAVA_HOME}
-    make install
+  # To uninstall the old oprofile and reinstall with the new JDK level
+    AN "$WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh -r $WORKDIR"
+
+  # To just uninstall the old oprofile installed do
+    AN "$WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh $WORKDIR"
+
   ```
   
 ## nmon recording.

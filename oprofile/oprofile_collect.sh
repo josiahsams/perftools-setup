@@ -27,7 +27,6 @@ HOSTNAME=`hostname`
 
 ./oprofile_install/bin/opreport > report/${HOSTNAME}_out-report 2>$LOGFILE
 ./oprofile_install/bin/opreport --symbols > report/${HOSTNAME}_out-report--symbols 2>$LOGFILE
-./oprofile_install/bin/opannotate -a > report/${HOSTNAME}_out-annotate--assembly 2>$LOGFILE
 
 exit 0
 

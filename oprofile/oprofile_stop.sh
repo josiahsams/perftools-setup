@@ -8,20 +8,26 @@ AN "ps -ef | grep -w  'sudo.*operf' | grep -v grep | awk '{print \$2}' | xargs -
 
 sleep 30
 
-cd $WORKDIR/oprofile
+OPROF_WDIR="$WORKDIR/perftools-setup/oprofile/wdir"
 
-mkdir -p $WORKDIR/oprofile/all_reps/report.$$
+cd $OPROF_WDIR
+
+mkdir -p all_reps/report.$$
 
 for slaves in `cat $HADOOP_HOME/etc/hadoop/slaves | grep -v "^#" `
 do
-	scp ${slaves}:$HOME/oprofile/report/* $WORKDIR/oprofile/all_reps/report.$$/
+	mkdir -p all_reps/report.$$/$slaves/oprofile_data/samples
+	scp -rp ${slaves}:$OPROF_WDIR/report/* $OPROF_WDIR/all_reps/report.$$/$slaves >/dev/null
+        scp -rp ${slaves}:$OPROF_WDIR/oprofile_data $OPROF_WDIR/all_reps/report.$$/$slaves >/dev/null
 done
 
-mv ./report/* ./all_reps/report.$$/
+mkdir -p ./all_reps/report.$$/`hostname`
+cp -rp oprofile_data ./all_reps/report.$$/`hostname`/ 
+mv ./report/* ./all_reps/report.$$/`hostname`/
 
 cd all_reps
 
 tar -czf report.$$.tgz ./report.$$
 
-echo "oprofile logs for the cluster can be found at $WORKDIR/oprofile/all_reps/report.$$.tgz"
+echo "oprofile logs for the cluster can be found at $OPROF_WDIR/all_reps/report.$$.tgz"
 
