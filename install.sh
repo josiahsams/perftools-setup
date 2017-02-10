@@ -8,28 +8,15 @@ if [ ! -d $WORKDIR/perftools-setup ]; then
 	exit 255
 fi
 
-# Add scripts to the PATH
-grep "perftools-setup\/nmon" ~/.bashrc
-if [ $? -ne 0 ]; then
-	echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/nmon" >> ~/.bashrc
-fi
-
-grep "perftools-setup\/oprofile" ~/.bashrc
-if [ $? -ne 0 ]; then
-	echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/oprofile" >> ~/.bashrc
-fi
-
-grep "perftools-setup\/pmonitor" ~/.bashrc
-if [ $? -ne 0 ]; then
-        echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/pmonitor" >> ~/.bashrc
-fi
-
 # Copy the required script to all slave nodes.
 DN "mkdir -p $WORKDIR/perftools-setup/oprofile/"
 
 CP $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh
 
 AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_collect.sh"
+
+CP $WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh $WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh
+AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh"
 
 if [ -f /usr/bin/apt-get ]; then
 	# ubuntu
@@ -44,7 +31,7 @@ if [ -f /usr/bin/apt-get ]; then
 	# install `oprofile` in all nodes
 	CP $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh
 	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh"
-	AN "$WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR"
+	AN "$WORKDIR/perftools-setup/oprofile/oprofile_ubuntu_installer.sh $WORKDIR/perftools-setup/oprofile"
 
 	# required for pid_monitor.
 	AN "sudo apt-get -y install dstat time  >/dev/null 2>&1"
@@ -63,16 +50,11 @@ else
 	# install `oprofile` in all nodes
 	CP $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh
 	AN "chmod +x $WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh"
-	AN "$WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR"
+	AN "$WORKDIR/perftools-setup/oprofile/oprofile_redhat_installer.sh $WORKDIR/perftools-setup/oprofile"
 
 	# required for pid_monitor.
 	AN "sudo yum -y install dstat time  >/dev/null 2>&1"
 	sudo yum -y install httpd
-fi
-
-grep "oprofile_install\/bin" ~/.bashrc
-if [ $? -ne 0 ]; then
-        echo "export PATH=\$PATH:${WORKDIR}/oprofile/oprofile_install/bin" >> ~/.bashrc
 fi
 
 # Steps to install pid_monitor.
@@ -94,4 +76,22 @@ fi
 echo "pid_monitor is successfully configured. "
 echo "Installation Completed !!"
 
+tmpfile="${WORKDIR}/perftools-setup/tmp_b"
+# Add scripts to the PATH
+echo "#StartPerftoolsEnv" > $tmpfile
+echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/nmon" >> $tmpfile
+echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/oprofile" >> $tmpfile
+echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/pmonitor" >> $tmpfile
+echo "export PATH=\$PATH:${WORKDIR}/perftools-setup/oprofile/wdir/oprofile_install/bin" >> $tmpfile
+echo "#StopPerftoolsEnv" >> $tmpfile
 
+grep -q '#StartPerftoolsEnv' $HOME/.bashrc
+if [ $? -eq 0 ];
+then
+	sed -i '/#StartPerftoolsEnv/,/#StopPerftoolsEnv/d' $HOME/.bashrc
+fi
+
+cat $tmpfile >>$HOME/.bashrc
+rm $tmpfile 
+
+exit 0
