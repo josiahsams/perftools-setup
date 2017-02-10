@@ -21,7 +21,7 @@ while [ "$1" != "" ]; do
   shift;
 done;
 
-export PID_DIR=${WORKDIR}/pid_monitor
+export PID_DIR=${WORKDIR}/perftools-setup/pid_monitor
 
 export WORKLOAD_NAME=${workname}
 export DESCRIPTION=${workname}
