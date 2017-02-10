@@ -32,10 +32,10 @@ Note:
   # The old oprofile must be uninstalled before installing the new version. 
 
   # To uninstall the old oprofile and reinstall with the new JDK level
-    AN oprofile_uninstall.sh -r
+    AN "$WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh -r $WORKDIR"
 
   # To just uninstall the old oprofile installed do
-    AN oprofile_uninstall.sh 
+    AN "$WORKDIR/perftools-setup/oprofile/oprofile_uninstall.sh $WORKDIR"
 
   ```
   

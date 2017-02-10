@@ -1,23 +1,26 @@
 #!/bin/bash
 
-set -x
 
-${WORKDIR?"Need to set WORKDIR env"} 2>/dev/null
-if [ $# -gt 1 ]; then
-        echo "Usage: $0 [-r]
+if [ $# -gt 2 ]; then
+        echo "Usage: $0 [-r] <WORKDIR>"
         exit 25
 fi
 
-if [ $# -eq 1 and $1 != "-r" ]; then
-        echo "Usage: $0 [-r]
+if [ $# -eq 2 ] && [ $1 != "-r" ]; then
+        echo "Usage: $0 [-r] <WORKDIR>"
         exit 25
 fi
 
 recompile=false
 
-if [ $# -eq 1 ]; then
+if [ $# -eq 2 ]; then
 	recompile=true
+	WORKDIR=$2
+else
+	WORKDIR=$1
 fi
+
+
 
 WDIR="$WORKDIR/perftools-setup/oprofile/wdir"
 
